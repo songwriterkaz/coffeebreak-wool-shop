@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coffeebreak Wool</title>
+<meta name="description" content="Handmade, made to order wool jumpers, beanies, scarves, socks, cardigans and blankets.">
+<style>
+:root{--bg:#f6f1e9;--card:#fff;--ink:#33291f;--muted:#76685a;--accent:#7b4b2a;--accent2:#4f6b4f;--line:#e4d9c8}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--accent)}
+header{display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+header img{width:48px;height:48px;border-radius:50%;object-fit:cover}
+header h1{font-family:Georgia,serif;font-size:1.35rem;margin:0;flex:1}
+#cartBtn{background:var(--accent);color:#fff;border:0;border-radius:999px;padding:10px 16px;font:700 .95rem system-ui;cursor:pointer}
+.hero{text-align:center;padding:24px 16px 6px}
+.hero h2{font-family:Georgia,serif;font-size:clamp(1.5rem,5vw,2.2rem);margin:0 0 6px}
+.hero p{margin:0 auto;max-width:640px;color:var(--muted)}
+main{max-width:1100px;margin:0 auto;padding:12px}
+.tabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.tabs button{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 14px;font:600 .9rem system-ui;cursor:pointer;color:var(--ink)}
+.tabs button.on{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.card img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.card .b{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{margin:0;font-size:1.05rem}
+.price{font-weight:800;color:var(--accent);font-size:1.1rem}
+.mto{font-size:.82rem;color:var(--accent2);font-weight:600}
+.card p{margin:0;color:var(--muted);font-size:.9rem}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+select,input,textarea{width:100%;padding:10px;border:1px solid #d6c8b3;border-radius:10px;font:inherit;background:#fffdf9}
+.add{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:11px;font:700 .95rem system-ui;cursor:pointer;margin-top:auto}
+section.info{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:18px 0}
+section.info h2{font-family:Georgia,serif;margin-top:0}
+#drawer{position:fixed;inset:0;background:rgba(30,20,10,.45);display:none;z-index:20}
+#drawer.open{display:block}
+#panel{position:absolute;right:0;top:0;bottom:0;width:min(440px,100%);background:#fff;overflow:auto;padding:16px;padding-bottom:40px}
+#panel h2{font-family:Georgia,serif;margin:0 0 10px;display:flex;justify-content:space-between;align-items:center}
+.x{background:none;border:0;font-size:1.6rem;cursor:pointer;color:var(--ink)}
+.line{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:10px 0}
+.line img{width:56px;height:56px;border-radius:8px;object-fit:cover}
+.line small{color:var(--muted)}
+.qty{display:flex;align-items:center;gap:4px;margin-top:4px}
+.qty button{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:#faf6ef;cursor:pointer;font-weight:700}
+.qty input{width:52px;text-align:center;padding:5px}
+.rm{background:none;border:0;color:#a33;cursor:pointer;font-weight:600;text-decoration:underline;padding:0}
+.tot{margin-top:12px}
+.tot div{display:flex;justify-content:space-between;padding:3px 0}
+.tot .grand{font-weight:800;font-size:1.15rem;border-top:2px solid var(--ink);margin-top:6px;padding-top:8px}
+.go{width:100%;background:var(--accent2);color:#fff;border:0;border-radius:12px;padding:13px;font:700 1rem system-ui;cursor:pointer;margin-top:12px}
+.go:disabled{opacity:.5;cursor:not-allowed}
+label{display:block;font-weight:600;margin:10px 0 3px;font-size:.92rem}
+.pay{font-weight:800;background:#eef5ee;border:1px dashed var(--accent2);padding:12px;border-radius:10px;word-break:break-word}
+.ref{font-family:ui-monospace,monospace;font-weight:800;font-size:1.1rem}
+.err{color:#a32020;font-weight:600;min-height:1.2em}
+.ok{color:var(--accent2);font-weight:600}
+.empty{color:var(--muted);text-align:center;padding:30px 0}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:20px 16px 40px;max-width:900px;margin:0 auto}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <img src="img/logo.webp" alt="Coffeebreak logo">
+  <h1>Coffeebreak Wool</h1>
+  <button id="cartBtn" aria-label="Open cart">Cart (<span id="cartCount">0</span>)</button>
+</header>
+<div class="hero">
+  <h2>Warm, handmade wool for cold mornings</h2>
+  <p>Jumpers, beanies, scarves, socks, cardigans and blankets, knitted to order in your size and colour. Every piece is made to order, so please allow the making time shown on each item plus shipping.</p>
+</div>
+<main>
+  <div class="tabs" id="tabs"></div>
+  <div class="grid" id="grid"></div>
+
+  <section class="info" id="shipping">
+    <h2>Shipping in Australia</h2>
+    <p>Standard shipping is A$12.50 Australia wide, free on orders of A$150 or more. Express shipping is A$22.00. Items ship once they are made, and you will get an email when your order is on its way.</p>
+  </section>
+
+  <section class="info" id="care">
+    <h2>Wool care guide</h2>
+    <ul>
+      <li><b>Wash less.</b> Wool naturally resists odours. Airing a jumper overnight is often enough.</li>
+      <li><b>Hand wash cool.</b> Use cool or lukewarm water with a wool wash. Gently squeeze, never wring or twist.</li>
+      <li><b>Machine wash only on a wool cycle</b> if the label allows, inside a mesh bag, with a cold rinse.</li>
+      <li><b>No sudden temperature changes.</b> Hot water and rubbing cause felting and shrinking.</li>
+      <li><b>Dry flat.</b> Roll in a towel to remove water, then lay flat in shape, out of direct sun. Never tumble dry or hang wet knits.</li>
+      <li><b>Pilling is normal.</b> Gently remove pills with a wool comb or fabric shaver.</li>
+      <li><b>Store folded</b>, clean and dry, with cedar or lavender to keep moths away. Hangers stretch knits.</li>
+      <li><b>Baby blankets:</b> wash before first use with a gentle, fragrance free wool wash.</li>
+    </ul>
+  </section>
+</main>
+
+<div id="drawer" aria-hidden="true">
+  <div id="panel" role="dialog" aria-label="Cart">
+    <div id="cartView">
+      <h2>Your cart <button class="x" data-close aria-label="Close">&times;</button></h2>
+      <div id="lines"></div>
+      <label for="shipSel">Shipping</label>
+      <select id="shipSel"><option value="standard">Standard (A$12.50, free from A$150)</option><option value="express">Express (A$22.00)</option></select>
+      <div class="tot">
+        <div><span>Subtotal</span><span id="tSub">A$0.00</span></div>
+        <div><span>Shipping</span><span id="tShip">A$0.00</span></div>
+        <div class="grand"><span>Total</span><span id="tTotal">A$0.00</span></div>
+      </div>
+      <button class="go" id="toCheckout">Checkout</button>
+    </div>
+    <div id="checkoutView" class="hidden">
+      <h2>Checkout <button class="x" data-close aria-label="Close">&times;</button></h2>
+      <form id="coForm" novalidate>
+        <label for="c-name">Full name</label><input id="c-name" autocomplete="name">
+        <label for="c-email">Email</label><input id="c-email" type="email" autocomplete="email">
+        <label for="c-phone">Phone (optional)</label><input id="c-phone" autocomplete="tel">
+        <label for="c-addr">Delivery address in Australia</label><textarea id="c-addr" rows="3" autocomplete="street-address"></textarea>
+        <label for="c-notes">Notes (optional)</label><input id="c-notes" placeholder="eg gift, measurements">
+        <p class="err" id="c-err" role="alert"></p>
+        <button class="go" type="submit">Place order</button>
+        <button class="go" type="button" id="backToCart" style="background:#999">Back to cart</button>
+      </form>
+    </div>
+    <div id="doneView" class="hidden">
+      <h2>Order summary <button class="x" data-close aria-label="Close">&times;</button></h2>
+      <p>Order reference: <span class="ref" id="oRef"></span></p>
+      <pre id="oSummary" style="white-space:pre-wrap;background:#f7f2ea;padding:10px;border-radius:8px;font-size:.88rem"></pre>
+      <h3>How to pay</h3>
+      <p class="pay">Pay by PayID (Teachers Mutual Bank): darkokaz@gmx.com</p>
+      <p>Amount: <b id="oAmt"></b>. Please put your order reference <b id="oRef2"></b> in the payment description. Making starts once payment arrives.</p>
+      <p class="ok" id="oMsg"></p>
+      <button class="go" id="resend">Email my order again</button>
+      <button class="go" id="copyOrder" style="background:var(--accent)">Copy order</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><a href="https://coffeebreaks.itch.io" target="_blank" rel="noopener">More from Coffeebreak at coffeebreaks.itch.io</a></p>
+  <p><a href="https://www.tesla.com" target="_blank" rel="noopener">Tesla</a> · <a href="https://www.starlink.com" target="_blank" rel="noopener">Starlink</a></p>
+  <p>Disclaimer: Karen keeps all rights to her products, designs, apps, name and logo. Buyers may resell what they bought, but may not copy them or make their own versions. Third-party trademarks belong to their owners and are used only to describe items.</p>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
